@@ -11,9 +11,12 @@ import java.util.Date;
 import java.util.List;
 @Service
 public class ProductService implements ProductServiceInterface{
-    @Autowired
-    ProductRepository productRepository;
 
+    final ProductRepository productRepository;
+    @Autowired
+    public ProductService(ProductRepository productRepository){
+        this.productRepository = productRepository;
+    }
 
     @Override
     public List<Product> getAllProducts() {
@@ -64,7 +67,7 @@ public class ProductService implements ProductServiceInterface{
     public Product updateStock(Long id, int qty) {
         Product productToUpdate = getProduct(id);
         if(productToUpdate == null) return null;
-        productToUpdate.setStock(qty);
+        productToUpdate.setStock(productToUpdate.getStock() + qty);
         return productRepository.save(productToUpdate);
     }
 
