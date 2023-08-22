@@ -1,5 +1,6 @@
 package com.store.relantStore.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,5 +31,6 @@ public class Product {
     private Date createdAt;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categories_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     private Category category;
 }
