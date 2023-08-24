@@ -1,17 +1,26 @@
 package com.store.relantStore.Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.store.relantStore.Entity.Category;
 import com.store.relantStore.Entity.Product;
+import com.store.relantStore.Error.ErrorMessage;
 import com.store.relantStore.Service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.sound.sampled.Port;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -52,7 +61,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product){
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product, BindingResult result){
+        if(result.hasErrors()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
+        }
         Product productSaved = this.productService.createProduct(product);
         return new ResponseEntity<>(productSaved, HttpStatus.CREATED);
     }
@@ -83,6 +95,30 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(productUpdated,HttpStatus.ACCEPTED);
+    }
+
+    private String formatMessage(BindingResult result){
+        List<Map<String,String>> errors = result.getFieldErrors().stream()
+                .map( e -> {
+                    Map<String,String> errorMap = new HashMap<>();
+                    errorMap.put(e.getField(), e.getDefaultMessage());
+                    return errorMap;
+                })
+                .collect(Collectors.toList());
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .code("01")
+                .messages(errors).build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = "";
+        try{
+            jsonString = objectMapper.writeValueAsString(errorMessage);
+
+        } catch (JsonProcessingException jpe){
+            jpe.printStackTrace();
+
+        }
+        return jsonString;
     }
 
 }
