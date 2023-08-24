@@ -64,18 +64,16 @@ public class ProductService implements ProductServiceInterface{
     }
 
     @Override
-    public Product updateStock(Long id, int qty) {
+    public Product updateStockOrAndPrice(Long id, Integer stock, Double price) {
         Product productToUpdate = getProduct(id);
         if(productToUpdate == null) return null;
-        productToUpdate.setStock(productToUpdate.getStock() + qty);
+        if(stock != null){
+            productToUpdate.setStock(productToUpdate.getStock() + stock);
+        }
+        if(price != null){
+            productToUpdate.setPrice(price);
+        }
         return productRepository.save(productToUpdate);
     }
 
-    @Override
-    public Product updatePrice(Long id, Double price) {
-        Product productToUpdate = getProduct(id);
-        if(productToUpdate == null) return null;
-        productToUpdate.setPrice(price);
-        return productRepository.save(productToUpdate);
-    }
 }

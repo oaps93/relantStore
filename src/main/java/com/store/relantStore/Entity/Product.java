@@ -22,7 +22,7 @@ public class Product {
     private Long id;
     private String name;
     private String description;
-    private int stock;
+    private Integer stock;
     private Double price;
     @Enumerated(EnumType.STRING)
     private Status status;

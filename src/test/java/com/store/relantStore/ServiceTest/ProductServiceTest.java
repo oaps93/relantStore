@@ -49,8 +49,10 @@ public class ProductServiceTest {
 
     @Test
     public void whenUpdateStock_ReturnUpdatedStock(){
-        Product updatedStock = productServiceInterface.updateStock(1L,3);
+        Product updatedStock = productServiceInterface.updateStockOrAndPrice(1L,3, 13.3);
         Assertions.assertEquals(updatedStock.getStock(),13);
+        Assertions.assertEquals(updatedStock.getPrice(),13.3);
+
 
     }
 }

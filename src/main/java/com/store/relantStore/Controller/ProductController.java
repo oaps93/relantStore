@@ -58,13 +58,31 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> createProduct(@RequestParam Long id, @RequestBody Product product){
+    public ResponseEntity<Product> createProduct(@PathVariable Long id, @RequestBody Product product){
         product.setId(id);
         Product productUpdated = this.productService.updateProduct(product);
         if(productUpdated == null){
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(productUpdated, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable Long id){
+        Product productDeleted = this.productService.deleteProduct(id);
+        if(productDeleted == null){
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(productDeleted,HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Product> updatePriceAndOrStock(@PathVariable Long id, @RequestParam(required = false) Double price, @RequestParam(required = false) Integer stock){
+        Product productUpdated = this.productService.updateStockOrAndPrice(id, stock, price);
+        if(productUpdated == null){
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(productUpdated,HttpStatus.ACCEPTED);
     }
 
 }

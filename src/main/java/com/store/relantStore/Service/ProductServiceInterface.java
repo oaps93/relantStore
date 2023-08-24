@@ -12,6 +12,6 @@ public interface ProductServiceInterface {
     Product updateProduct(Product product);
     Product deleteProduct(Long id);
     List<Product> getProductsByCategory(Category category);
-    Product updateStock(Long id, int qty);
-    Product updatePrice(Long id, Double price);
+    Product updateStockOrAndPrice(Long id, Integer qty, Double price);
+
 }
