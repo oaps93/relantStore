@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sound.sampled.Port;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,22 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody Product product){
+        Product productSaved = this.productService.createProduct(product);
+        return new ResponseEntity<>(productSaved, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> createProduct(@RequestParam Long id, @RequestBody Product product){
+        product.setId(id);
+        Product productUpdated = this.productService.updateProduct(product);
+        if(productUpdated == null){
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(productUpdated, HttpStatus.OK);
     }
 
 }
