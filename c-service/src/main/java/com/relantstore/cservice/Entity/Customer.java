@@ -36,6 +36,8 @@ public class Customer {
     private String zipCode;
     @NotEmpty
     private String state;
+    @Column(name = "active_customer")
+    private boolean activeCustomer;
 
 
 

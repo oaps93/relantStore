@@ -8,10 +8,16 @@ public interface CustomerServiceInterface {
 
     List<Customer> getAllCustomers();
     Customer getCustomer(Long id);
-    Customer createCustomer(Customer customer);
-    Customer updateCustomer(Customer customer);
-    Customer deleteCustomer(Long id);
+    List<Customer> getAllActiveCustomer();
     List<Customer> getByState(String state);
+
+    Customer createCustomer(Customer customer);
+
+    Customer updateCustomer(Customer customer);
+
+    Customer deleteCustomer(Long id);
+
+
 
 
 
