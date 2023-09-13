@@ -7,7 +7,7 @@ import java.util.List;
 public interface CustomerServiceInterface {
 
     List<Customer> getAllCustomers();
-    Customer getCustomer(Long id);
+    Customer getCustomer(String email);
     List<Customer> getAllActiveCustomer();
     List<Customer> getByState(String state);
 
@@ -15,7 +15,7 @@ public interface CustomerServiceInterface {
 
     Customer updateCustomer(Customer customer);
 
-    Customer deleteCustomer(Long id);
+    Customer deleteCustomer(String email);
 
 
 

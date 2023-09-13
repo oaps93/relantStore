@@ -22,8 +22,8 @@ public class CustomerService implements CustomerServiceInterface {
     }
 
     @Override
-    public Customer getCustomer(Long id) {
-        return this.customerRepository.findById(id).orElse(null);
+    public Customer getCustomer(String email) {
+        return this.customerRepository.findByEmail(email).orElse(null);
     }
     @Override
     public List<Customer> getAllActiveCustomer() {
@@ -42,7 +42,7 @@ public class CustomerService implements CustomerServiceInterface {
 
     @Override
     public Customer updateCustomer(Customer customer) {
-        Customer customerToUpdate = getCustomer(customer.getId());
+        Customer customerToUpdate = getCustomer(customer.getEmail());
         if(customerToUpdate == null) return null;
 
         customerToUpdate.setFirstName(customer.getFirstName());
@@ -57,8 +57,8 @@ public class CustomerService implements CustomerServiceInterface {
     }
 
     @Override
-    public Customer deleteCustomer(Long id) {
-        Customer customerToDelete = getCustomer(id);
+    public Customer deleteCustomer(String email) {
+        Customer customerToDelete = getCustomer(email);
         if(customerToDelete == null) return null;
         customerToDelete.setActiveCustomer(false);
         return this.customerRepository.save(customerToDelete);
