@@ -2,6 +2,7 @@ package com.relantstore.cservice.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,10 +30,12 @@ public class Customer {
     @Email(message = "Not valid email account")
     private String email;
     @Column(name = "phone_number")
+    @Min(10)
     private String phoneNumber;
     private String rfc;
     @NotEmpty
     @Column(name = "zip_code")
+    @Min(5)
     private String zipCode;
     @NotEmpty
     private String state;

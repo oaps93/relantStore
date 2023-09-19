@@ -48,7 +48,6 @@ public class CustomerService implements CustomerServiceInterface {
         customerToUpdate.setFirstName(customer.getFirstName());
         customerToUpdate.setLastName(customer.getLastName());
         customerToUpdate.setRfc(customer.getRfc());
-        customerToUpdate.setEmail(customer.getEmail());
         customerToUpdate.setPhoneNumber(customer.getPhoneNumber());
         customerToUpdate.setState(customer.getState());
         customerToUpdate.setZipCode(customer.getZipCode());
