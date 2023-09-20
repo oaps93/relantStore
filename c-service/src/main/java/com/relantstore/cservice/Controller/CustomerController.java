@@ -49,14 +49,14 @@ public class CustomerController {
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
-    @GetMapping("/{state}")
-    public ResponseEntity<List<Customer>> listCustomerByState (@PathVariable String state){
+   /* @GetMapping
+    public ResponseEntity<List<Customer>> listCustomerByState (@RequestParam String state){
         List<Customer> customerList = this.customerService.getByState(state);
         if(customerList == null){
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(customerList, HttpStatus.OK);
-    }
+    }*/
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer, BindingResult result){
@@ -68,8 +68,11 @@ public class CustomerController {
 
     }
 
-    @PutMapping
-    public  ResponseEntity<Customer> updateCustomerInfo(@PathVariable String email, @RequestBody Customer customer){
+    @PutMapping("/{email}")
+    public  ResponseEntity<Customer> updateCustomerInfo(@PathVariable String email, @Valid @RequestBody Customer customer, BindingResult result){
+        if(result.hasErrors()){
+            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
+        }
         customer.setEmail(email);
         Customer customerToUpdate = this.customerService.updateCustomer(customer);
         if(customerToUpdate == null){
@@ -78,7 +81,7 @@ public class CustomerController {
         return new ResponseEntity<>(customerToUpdate, HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{email}")
     public ResponseEntity<Customer> deleteCustomer(@PathVariable String email){
         Customer customerToDelete = this.customerService.deleteCustomer(email);
         if(customerToDelete == null){
